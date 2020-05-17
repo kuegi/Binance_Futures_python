@@ -64,6 +64,11 @@ class SubscriptionClient(object):
             conn.close()
         self.connections.clear()
 
+    def close(self):
+        self.unsubscribe_all()
+        self.__watch_dog.scheduler.shutdown()
+        self.__watch_dog.join(1)
+
     def subscribe_aggregate_trade_event(self, symbol: 'str', callback, error_handler=None):
         """
         Aggregate Trade Streams

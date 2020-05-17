@@ -112,10 +112,12 @@ class WebsocketConnection:
         self.ws.send(data)
 
     def close(self):
-        self.ws.close()
-        del websocket_connection_handler[self.ws]
-        self.__watch_dog.on_connection_closed(self)
-        self.logger.error("[Sub][" + str(self.id) + "] Closing normally")
+        if self.ws is not None:
+            self.ws.close()
+            del websocket_connection_handler[self.ws]
+            self.__watch_dog.on_connection_closed(self)
+            self.logger.error("[Sub][" + str(self.id) + "] Closing normally")
+            self.ws = None
 
     def on_open(self, ws):
         self.logger.info("[Sub][" + str(self.id) + "] Connected to server")
