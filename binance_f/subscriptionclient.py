@@ -66,8 +66,9 @@ class SubscriptionClient(object):
 
     def close(self):
         self.unsubscribe_all()
-        self.__watch_dog.scheduler.shutdown()
-        self.__watch_dog.join(1)
+        if self.__watch_dog.scheduler.state != 0: # not stopped
+            self.__watch_dog.scheduler.shutdown()
+            self.__watch_dog.join(1)
 
     def subscribe_aggregate_trade_event(self, symbol: 'str', callback, error_handler=None):
         """
