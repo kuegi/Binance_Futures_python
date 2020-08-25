@@ -53,6 +53,7 @@ def callback(data_type: 'SubscribeMessageType', event: 'any'):
             print("Order Type: ", event.type)
             print("Time in Force: ", event.timeInForce)
             print("Original Quantity: ", event.origQty)
+            print("Position Side: ", event.positionSide)
             print("Price: ", event.price)
             print("Average Price: ", event.avgPrice)
             print("Stop Price: ", event.stopPrice)
@@ -71,6 +72,11 @@ def callback(data_type: 'SubscribeMessageType', event: 'any'):
             print("Is this trade the maker side?: ", event.isMarkerSide)
             print("Is this reduce only: ", event.isReduceOnly)
             print("stop price working type: ", event.workingType)
+            print("Is this Close-All: ", event.isClosePosition)
+            if not event.activationPrice is None:
+                print("Activation Price for Trailing Stop: ", event.activationPrice)
+            if not event.callbackRate is None:
+                print("Callback Rate for Trailing Stop: ", event.callbackRate)
         elif(event.eventType == "listenKeyExpired"):
             print("Event: ", event.eventType)
             print("Event time: ", event.eventTime)

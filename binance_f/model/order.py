@@ -18,6 +18,10 @@ class Order:
         self.workingType = ""
         self.avgPrice = 0.0
         self.origType = ""
+        self.positionSide = ""
+        self.activatePrice = None
+        self.priceRate = None
+        self.closePosition = None
 
     @staticmethod
     def json_parse(json_data):
@@ -39,5 +43,9 @@ class Order:
         result.workingType = json_data.get_string("workingType")
         result.avgPrice = json_data.get_float("avgPrice")
         result.origType = json_data.get_string("origType")
+        result.positionSide = json_data.get_string("positionSide")
+        result.activatePrice = json_data.get_float_or_default("activatePrice", None)
+        result.priceRate = json_data.get_float_or_default("priceRate", None)
+        result.closePosition = json_data.get_boolean("closePosition")
 
         return result

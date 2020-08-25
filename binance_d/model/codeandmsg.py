@@ -1,4 +1,4 @@
-class ChangeMarginType:
+class CodeMsg:
 
     def __init__(self):
         self.code = 0
@@ -6,7 +6,7 @@ class ChangeMarginType:
 
     @staticmethod
     def json_parse(json_data):
-        result = ChangeMarginType()
+        result = CodeMsg()
         result.code = json_data.get_int("code")
         result.msg = json_data.get_string("msg")
 

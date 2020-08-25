@@ -201,12 +201,41 @@ class RequestClient(object):
         response = call_sync(self.request_impl.get_open_interest(symbol))
         self.refresh_limits(response[1])
         return response[0]
- 
+
+
+    def change_position_mode(self, dualSidePosition: 'boolean' = None) -> any:
+        """
+        Change Current Position Mode (TRADE)
+
+        POST /fapi/v1/positionSide/dual (HMAC SHA256)
+
+        Change user's position mode (Hedge Mode or One-way Mode ) on EVERY symbol
+        """
+        response = call_sync(self.request_impl.change_position_mode(dualSidePosition))
+        self.refresh_limits(response[1])
+        return response[0]
+
+
+    def get_position_mode(self) -> any:
+        """
+        Get Current Position Mode (USER_DATA)
+
+        GET /fapi/v1/positionSide/dual (HMAC SHA256)
+
+        Get user's position mode (Hedge Mode or One-way Mode ) on EVERY symbol
+        """
+        response = call_sync(self.request_impl.get_position_mode())
+        self.refresh_limits(response[1])
+        return response[0]
+
+
     def post_order(self, symbol: 'str', side: 'OrderSide', ordertype: 'OrderType', 
                 timeInForce: 'TimeInForce' = TimeInForce.INVALID, quantity: 'float' = None,
                 reduceOnly: 'boolean' = None, price: 'float' = None,
                 newClientOrderId: 'str' = None, stopPrice: 'float' = None, 
-                workingType: 'WorkingType' = WorkingType.INVALID) -> any:
+                workingType: 'WorkingType' = WorkingType.INVALID, closePosition: 'boolean' = None,
+                positionSide: 'PositionSide' = PositionSide.INVALID, callbackRate: 'float' = None,
+                activationPrice: 'float' = None, newOrderRespType: 'OrderRespType' = OrderRespType.INVALID) -> any:
         """
         New Order (TRADE)
 
@@ -215,7 +244,7 @@ class RequestClient(object):
         Send in a new order.
         """
         response = call_sync(self.request_impl.post_order(symbol, side, ordertype, 
-                timeInForce, quantity, reduceOnly, price, newClientOrderId, stopPrice, workingType))
+                timeInForce, quantity, reduceOnly, price, newClientOrderId, stopPrice, workingType, closePosition, positionSide, callbackRate, activationPrice, newOrderRespType))
         self.refresh_limits(response[1])
         return response[0]
 

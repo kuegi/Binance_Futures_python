@@ -25,7 +25,8 @@ from binance_f.model.order import Order
 from binance_f.model.balance import Balance
 from binance_f.model.accountinformation import AccountInformation
 from binance_f.model.leverage import Leverage
-from binance_f.model.changemargintype import ChangeMarginType
+from binance_f.model.codeandmsg import CodeMsg
+from binance_f.model.positionmode import PositionMode
 from binance_f.model.positionmargin import PositionMargin
 from binance_f.model.positionmarginhistory import PositionMarginHist
 from binance_f.model.position import Position

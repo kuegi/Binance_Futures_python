@@ -364,9 +364,38 @@ class RestApiRequestImpl(object):
 
         request.json_parser = parse
         return request
-      
+     
+   
+    def change_position_mode(self, dualSidePosition):
+        check_should_not_none(dualSidePosition, "dualSidePosition")
+        builder = UrlParamsBuilder()
+        builder.put_url("dualSidePosition", dualSidePosition)
+        
+        request = self.__create_request_by_post_with_signature("/fapi/v1/positionSide/dual", builder)
+
+        def parse(json_wrapper):
+            result = CodeMsg.json_parse(json_wrapper)
+            return result
+
+        request.json_parser = parse
+        return request
+
+
+    def get_position_mode(self):
+        
+        request = self.__create_request_by_get_with_signature("/fapi/v1/positionSide/dual", builder)
+
+        def parse(json_wrapper):
+            result = PositionMode.json_parse(json_wrapper)
+            return result
+
+        request.json_parser = parse
+        return request
+
+
+
     def post_order(self, symbol, side, ordertype, 
-                timeInForce, quantity, reduceOnly, price, newClientOrderId, stopPrice, workingType):
+                timeInForce, quantity, reduceOnly, price, newClientOrderId, stopPrice, workingType, closePosition, positionSide, callbackRate, activationPrice, newOrderRespType):
         check_should_not_none(symbol, "symbol")
         check_should_not_none(side, "side")
         check_should_not_none(ordertype, "ordertype")
@@ -381,6 +410,12 @@ class RestApiRequestImpl(object):
         builder.put_url("newClientOrderId", newClientOrderId)
         builder.put_url("stopPrice", stopPrice)
         builder.put_url("workingType", workingType)
+        builder.put_url("closePosition", closePosition)
+        builder.put_url("positionSide", positionSide)
+        builder.put_url("callbackRate", callbackRate)
+        builder.put_url("activationPrice", activationPrice)
+        builder.put_url("newOrderRespType", newOrderRespType)
+
 
         request = self.__create_request_by_post_with_signature("/fapi/v1/order", builder)
 
@@ -431,11 +466,7 @@ class RestApiRequestImpl(object):
         request = self.__create_request_by_delete_with_signature("/fapi/v1/allOpenOrders", builder)
 
         def parse(json_wrapper):
-            result = list()
-            data_list = json_wrapper.convert_2_array()
-            for item in data_list.get_items():
-                element = Order.json_parse(item)
-                result.append(element)
+            result = CodeMsg.json_parse(json_wrapper)
             return result
 
         request.json_parser = parse
@@ -556,7 +587,7 @@ class RestApiRequestImpl(object):
         request = self.__create_request_by_post_with_signature("/fapi/v1/marginType", builder)
 
         def parse(json_wrapper):
-            result = ChangeMarginType.json_parse(json_wrapper)
+            result = CodeMsg.json_parse(json_wrapper)
             return result
 
         request.json_parser = parse
